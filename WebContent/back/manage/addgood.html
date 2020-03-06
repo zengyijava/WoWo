@@ -1,0 +1,68 @@
+<style type="text/css">
+.good{
+margin: 0 auto;
+width:600px;
+}
+.good form{
+width:500px;
+padding-top:20px;
+}
+.good form ul li{
+width:400px;
+margin-top:10px;
+}
+.good form ul li label{
+display:inline-block;
+text-align:right;
+width:100px;
+}
+</style>
+<div class="good">
+<form id="addgood" method="post" enctype="multipart/form-data">
+	<ul>
+		<li><label>菜品类型：</label>
+		<select type="text" style="width:100px;" id="t_parent"></select>
+		<select class="easyui-combobox" type="text" style="width:100px;" id="t_id"
+		data-options="valueField:'t_id',textField:'t_name'"></select>
+		</li>
+		<li><label>菜品名称：</label><input type="text" name="g_name"/></li>
+		<li><label>菜品描述：</label><input type="text" name="g_mark"/></li>
+		<li><label>菜品价格：</label><input type="text" name="g_price"/></li>
+		<li><label>菜品图片：</label><input type="file" name="g_temp1"/></li>
+		<li><label></label><a class="easyui-linkbutton tbn_add" style="width:80px;"
+		href="javascript:void(0)">添加</a></li>
+	</ul>
+</form>
+</div>
+<script type="text/javascript">
+$('#t_parent').combobox({
+    url:'goodType.action?op=find&t_parent=0',
+    valueField:'t_id',
+    textField:'t_name',
+    onSelect: function(rec){
+        var url = 'goodType.action?op=find&t_parent='+rec.t_id;
+        $('#t_id').combobox('reload', url);
+    }
+});
+
+$('#addgood .tbn_add').click(function(){
+	var formData=new FormData($('#addgood')[0]);
+	var tid=$('#t_id').combobox('getValue');  //获取选中下拉列表的值
+	formData.append("t_id",tid);
+	
+	$.ajax({
+		   type: 'post',
+		   url: "goodFileUpload.action",
+		   data: formData,
+		   cache:false,
+		   processData:false,
+		   contentType:false,
+		   success: function(data){
+		     alert(data);
+		   },
+		   error:function(){
+			   alert("上传失败");
+		   }
+		});
+});
+</script>

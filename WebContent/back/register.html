@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>商家注册界面</title>
+<style type="text/css">
+</style>
+</head>
+<body>
+<form class="form" action="../seller.action" post="method">
+    <input type="hidden" name="op" value="register"/>
+	商家名字：<input type="text" name="s_name" id="s_name" onblur="checkName()"/>
+	<span id="tishi_user" style="color:red;">*</span><br/>
+	
+	商家密码：<input type="text" name="s_pwd"/><br/>
+	电话号码：<input type="text" name="s_tel"/><br/>
+	营业执照：<input type="text" name="s_licence"/><br/>
+	所在地址：<input type="text" name="s_addr"/><br/>
+	商家照片：<input type="file" name="s_pic"/><br/>
+	<input type="submit" value="注册"/>
+</form>
+
+<script type="text/javascript">
+var xmlRequest;
+function createXMLRequest(){
+	xmlRequest=new XMLHttpRequest();
+	return xmlRequest;
+}
+//检查用户名是否注册
+function checkName(){
+	//获取文本框值
+	var sname=document.getElementById("s_name").value;
+	//创建对象
+	xmlRequest=createXMLRequest();
+	//与服务器创建连接
+	xmlRequest.open("GET","doCheckName.jsp?sname="+sname,true);
+	//发送数据
+	xmlRequest.send(null);
+	//回调函数
+	xmlRequest.onreadystatechange=function(){
+	  if(xmlRequest.readyState==4){//读取响应结束
+		if(xmlRequest.status==200){//服务器正常响应
+			var info=xmlRequest.responseText;
+			info=info.trim();
+			console.log(info);
+			//alert(info);
+			if("success"==info){
+				document.getElementById("tishi_user").innerHTML='*';
+				
+			}else{
+				document.getElementById("tishi_user").innerHTML='用户名已注册';
+			}
+		}
+	  }
+	}
+}
+		
+</script>
+</body>
+</html>

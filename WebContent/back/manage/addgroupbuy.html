@@ -1,0 +1,98 @@
+<style type="text/css">
+.nav {
+	width: 300px;
+	float: left;
+	padding: 20px;
+}
+
+.good {
+	float: left;
+	margin: 0 atuo;
+	width: 510px;
+}
+
+.good form {
+	width: 500px;
+}
+
+.good form ul {
+	width: 500px;
+}
+
+.good form ul li {
+	width: 400px;
+	margin-top: 10px;
+}
+
+.good form ul li label {
+	display: inline-block;
+	text-align: right;
+	width: 100px;
+}
+</style>
+<div class="nav">
+	<select id="sgd" class="easyui-combotree" style="width:200px;"
+    data-options="url:'good.action?op=findtype',
+    multiple:true,onCheck:function(node){
+    	 $('#addgroup .g_id').val('');
+    	var nodes= $('#sgd').combotree('tree').tree('getChecked', 'checked');
+	  var str ='';
+	  	for(var i =0;i<nodes.length;i++){
+		  if('child'==nodes[i].attributes){
+			  str+=nodes[i].id+',';
+		  }
+	  	}
+    	$('#addgroup .g_id').val(str);
+   	}">
+	</select>
+</div>
+
+<div class="good">
+	<form id="addgroup" method="post" enctype="multipart/form-data">
+		<ul>
+			<li><label>菜品名称：</label> <input type="text" name="g_id"
+				class="g_id" /></li>
+			<li><label>团购名称：</label><input type="text" name="gd_name" /></li>
+			<li><label>团购价格：</label><input type="text" name="gb_price" /></li>
+			<li><label>开始时间：</label><input type="text" id="gd_start"
+				class="easyui-datebox" /></li>
+			<li><label>结束时间：</label><input type="text" id="gd_end"
+				class="easyui-datebox" /></li>
+			<li><label>原价格：</label><input type="text" name="gd_hottip" /></li>
+			<li><label>团购图片：</label><input type="file" name="gd_desc" /></li>
+			<li><label>套餐类型：</label><input type="text" name="gd_type" /></li>
+			<li><label>温馨提示：</label>
+			<textarea name="gd_prompt"></textarea></li>
+			<li><label>套餐提示：</label>
+			<textarea name="gd_typedesc"></textarea></li>
+			<li><label>其他提示：</label>
+			<textarea name="gd_tishi"></textarea></li>
+			<li><label></label><a class="easyui-linkbutton tbn_add"
+				style="width: 80px;" href="javascript:void(0)">添加</a></li>
+		</ul>
+	</form>
+</div>
+<script type="text/javascript">
+	$('#addgroup .tbn_add').click(function() {
+		var formData = new FormData($('#addgroup')[0]);
+		var startdate = $('#addgroup #gd_start').datebox('getValue');
+		var enddate = $('#addgroup #gd_end').datebox('getValue');
+		formData.append("gd_start", startdate);
+		formData.append("gd_end", enddate);
+
+		$.ajax({
+			type : 'post',
+			url : "groupbuyFileUpload.action",
+			data : formData,
+			cache : false,
+			processData : false,
+			contentType : false,
+			success : function(data) {
+				alert(data);
+			},
+			error : function() {
+				alert("上传失败");
+			}
+		});
+	});
+</script>

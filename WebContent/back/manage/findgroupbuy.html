@@ -1,0 +1,53 @@
+<div>
+
+
+</div>
+<table id="show_groupbuy"></table>
+<script type="text/javascript">
+$('#show_groupbuy').datagrid({
+    url:'groupBuy.action',
+    queryParams:{op:'find'}, //查询参数     传入参数，默认查询可用账号信息 
+    pagination:true, //分页工具栏 
+    pageSize:4,
+    pageList:[2,4,6,8,10],
+    toolbar: [{
+		iconCls: 'icon-add',
+		handler: function(){alert('edit')}
+	},'-',{
+		iconCls: 'icon-edit',
+		handler: function(){alert('help')}
+	},'-',{
+		iconCls: 'icon-search',
+		handler: function(){
+			 
+		}
+	}],
+    columns:[[
+		{field:'gb_id',title:'团购编号',width:100},
+		{field:'g_id',title:'菜品编号',width:100},
+		{field:'gd_name',title:'团购名称',width:100,align:'right'},
+		{field:'gb_price',title:'团购价',width:100,align:'right'},
+		{field:'gd_start',title:'开始时间',width:100,align:'right'},
+		{field:'gd_end',title:'结束时间',width:100,align:'right'},
+		{field:'gd_type',title:'套餐类型',width:100,align:'right'},
+		{field:'gd_num',title:'购买人数',width:100,align:'right'},
+		{field:'gd_click',title:'点赞数',width:100,align:'right'},
+		{field:'gd_desc',title:'图片',width:100,align:'right',
+			formatter: function(value,row,index){
+			if(value==null){
+				return '暂无图片';
+			}else{
+				return '<img src="'+value+'" width="40"/>';
+			}
+		}
+		},
+		{field:'a_option',title:'操作',width:100,
+			formatter: function(value,row,index){
+				 
+					return '<a href="javascript:updateState('+row.gb_id+')">查看详情</a>';
+				 
+			}
+		}
+    ]]
+});
+</script>

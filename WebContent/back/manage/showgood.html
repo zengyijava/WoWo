@@ -1,0 +1,39 @@
+<table id="show_good"></table>
+<script type="text/javascript">
+$('#show_good').datagrid({
+    url:'good.action',
+    queryParams:{op:'find'},//查询参数 传入参数  默认查询可用账号信息
+    pagination:true,  //分页工具栏
+    pageSize:4,
+    pageList:[2,4,6,8,10],
+    toolbar:[{
+    	iconCls:'icon-add',
+    	handler:function(){alert('edit')}
+    },'-',{
+    	iconCls:'icon-edit',
+    	handler:function(){alert('help')}
+    },'-',{
+    	iconCls:'icon-search',
+    	handler:function(){
+    		$('#show_good').datagrid('load',{
+    			op:'find'});
+    	}
+    }],
+    
+    
+    columns:[[
+		{field:'g_id',title:'编号',width:100},
+		{field:'g_name',title:'名称',width:100},
+		{field:'t_name',title:'商品类型',width:100,align:'right'},
+		{field:'g_price',title:'商品价格',width:100,align:'right'},
+		{field:'a_option',title:'操作',width:100,
+			formatter:function(value,row,index){
+				return '<a href="javascript:updateGood('+row.g_id+')">修改</a>'
+				}
+			}		
+    ]]
+});
+
+	
+	
+</script>
